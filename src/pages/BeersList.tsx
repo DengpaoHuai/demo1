@@ -1,24 +1,29 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { deleteBeer, getBeers } from "../services/beers";
 import type { Beer } from "../schemas/beer.schema";
 import { Link } from "react-router";
 import "./BeersList.css";
 import Modal from "../components/Modal";
+import { BasketContext } from "../contexts/BasketContextProvider";
+import useBeers from "../stores/useBeers";
 
 const BeersList = () => {
-  const [beers, setBeers] = useState<Beer[]>([]);
+  const { beers, setAllBeers } = useBeers()
   const [refresh, setRefresh] = useState(false);
+  const { addUnBonneBinouze } = useContext(BasketContext)
+
 
   useEffect(() => {
+    if (beers.length) return
     getBeers().then((beers) => {
-      setBeers(beers);
+      setAllBeers(beers);
     });
   }, [refresh]);
 
   const deleteItem = (id: string) => {
     deleteBeer(id).then(() => {
-      setBeers(beers.filter((beer) => beer._id !== id));
+      setAllBeers(beers.filter((beer) => beer._id !== id));
       setRefresh(!refresh);
     });
   };
@@ -58,7 +63,13 @@ const BeersList = () => {
                       <span className="beer-tag">Artisanale</span>
                     </div>
                   </Link>
-
+                  <button
+                    onClick={() => {
+                      addUnBonneBinouze(beer)
+                    }}
+                  >
+                    ajouter au panier
+                  </button>
                   <button
                     onClick={() => deleteItem(beer._id)}
                     className="delete-btn"

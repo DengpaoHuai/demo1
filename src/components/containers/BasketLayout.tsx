@@ -1,17 +1,17 @@
-import { type ReactNode } from "react"
+import { useContext, type ReactNode } from "react";
+import { BasketContext } from "../../contexts/BasketContextProvider";
+import { Link, Outlet } from "react-router";
 
-const BasketLayout = ({ children }: { children: ReactNode }) => {
+const BasketLayout = () => {
+  const { beers } = useContext(BasketContext);
 
+  return (
+    <div>
+      <p>nombre d'articles : {beers.length}</p>
+      <Link to="/basket">Basket</Link>
+      <Outlet />
+    </div>
+  );
+};
 
-    return (
-        <div style={{
-
-        }}>
-            <p>nombre d'articles : </p>
-            {children}
-        </div>
-    )
-
-}
-
-export default BasketLayout
+export default BasketLayout;

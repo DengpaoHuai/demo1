@@ -2,15 +2,15 @@ import { RouterProvider } from "react-router";
 import router from "./router/router";
 import ModalContextProvider from "./contexts/ModalProvider";
 import BasketLayout from "./components/containers/BasketLayout";
+import BasketContextProvider from "./contexts/BasketContextProvider";
 
 function App() {
   return (
     <div>
       <ModalContextProvider>
-        <BasketLayout>
+        <BasketContextProvider>
           <RouterProvider router={router} />
-        </BasketLayout>
-
+        </BasketContextProvider>
       </ModalContextProvider>
     </div>
   );

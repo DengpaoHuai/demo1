@@ -5,6 +5,7 @@ import { createBeer } from "../services/beers";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
 import "./BeerForm.css";
+import useBeers from "../stores/useBeers";
 
 const BeerForm = () => {
   const {
@@ -14,11 +15,13 @@ const BeerForm = () => {
   } = useForm({
     resolver: zodResolver(beerSchema),
   });
+  const { addBeer } = useBeers()
   const navigate = useNavigate();
 
   const onSubmit = (values: Omit<Beer, "_id">) => {
     console.log(values);
-    createBeer(values).then(() => {
+    createBeer(values).then((newBeer) => {
+      addBeer(newBeer)
       navigate("/beers");
     });
   };
