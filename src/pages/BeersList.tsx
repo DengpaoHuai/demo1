@@ -4,6 +4,7 @@ import { deleteBeer, getBeers } from "../services/beers";
 import type { Beer } from "../schemas/beer.schema";
 import { Link } from "react-router";
 import "./BeersList.css";
+import Modal from "../components/Modal";
 
 const BeersList = () => {
   const [beers, setBeers] = useState<Beer[]>([]);

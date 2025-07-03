@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router";
 import { getBeerById } from "../services/beers";
 import { useEffect, useState } from "react";
 import type { Beer } from "../schemas/beer.schema";
+import Button from "../components/Button";
 
 const BeerDetails = () => {
   const [beer, setBeer] = useState<Beer | null>(null);
@@ -32,6 +33,7 @@ const BeerDetails = () => {
           <p> degré : {beer.degree}</p>
         </div>
       )}
+      <Button onClick={(e, e2) => console.log(e, e2)}>Retour</Button>
     </div>
   );
 };
