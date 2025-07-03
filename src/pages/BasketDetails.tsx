@@ -1,15 +1,14 @@
-import { useContext } from "react";
-import { BasketContext } from "../contexts/BasketContextProvider";
+import useBasket from "../stores/useBasket";
 
 const BasketDetails = () => {
-  const { beers } = useContext(BasketContext);
+  const { products } = useBasket();
 
   return (
     <div>
       <h1>BasketDetails</h1>
       <ul>
-        {beers.map((beer) => (
-          <li key={beer._id}>{beer.name}</li>
+        {products.map((product) => (
+          <li key={product._id}>{product.name}</li>
         ))}
       </ul>
     </div>

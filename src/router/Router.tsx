@@ -5,7 +5,7 @@ import Planets from "../pages/Planets";
 import beerRouter from "./beer.router";
 import BasketLayout from "../components/containers/BasketLayout";
 import BasketDetails from "../pages/BasketDetails";
-
+import PlanetsQueries from "../pages/PlanetsQueries";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -14,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <HomePage />,
+      },
+      {
+        path: "query",
+        element: <PlanetsQueries />,
       },
       {
         path: "about",

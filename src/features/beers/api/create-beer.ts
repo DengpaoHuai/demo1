@@ -1,0 +1,8 @@
+import { z } from "zod";
+
+export const beerSchema = z.object({
+    name: z.string().min(3, "trop court").max(50, "trop long"),
+    price: z.coerce.number().min(1, "trop cher").max(100, "trop cher"),
+    degree: z.coerce.number().min(1, "trop faible").max(100, "trop élevé"),
+    brasserie: z.string().min(3, "trop court").max(50, "trop long"),
+});

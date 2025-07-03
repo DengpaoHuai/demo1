@@ -1,15 +1,29 @@
+import { useEffect } from "react";
+import { useState } from "react";
+import { deleteBeer, getBeers } from "../services/beers";
 import { Link } from "react-router";
 import "./BeersList.css";
-import useBeers from "../features/beers/api/get-beers";
-import useDeleteBeer from "../features/beers/api/delete-beer";
+import useBeers from "../stores/useBeers";
+import useBasket from "../stores/useBasket";
 
 const BeersList = () => {
-  const { data: beers, isLoading, error, refetch } = useBeers({
-    staleTime: 15000
-  })
+  const { beers, setAllBeers } = useBeers();
+  const [refresh, setRefresh] = useState(false);
+  const { addProduct } = useBasket();
 
-  const deletebeer = useDeleteBeer()
+  useEffect(() => {
+    if (beers.length) return;
+    getBeers().then((beers) => {
+      setAllBeers(beers);
+    });
+  }, [refresh]);
 
+  const deleteItem = (id: string) => {
+    deleteBeer(id).then(() => {
+      setAllBeers(beers.filter((beer) => beer._id !== id));
+      setRefresh(!refresh);
+    });
+  };
 
   return (
     <div className="beers-container">
@@ -26,14 +40,14 @@ const BeersList = () => {
         <Link to="/beers/gdfgdfgdfgdhfghfgh" className="add-beer-btn">
           {"dsfsdfsd "}
         </Link>
-        {beers?.length === 0 ? (
+        {beers.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">🍺</div>
             <p className="empty-text">Aucune bière pour le moment...</p>
           </div>
         ) : (
           <div className="beers-grid">
-            {beers?.map((beer) => (
+            {beers.map((beer) => (
               <div key={beer._id} className="beer-card">
                 <div className="beer-image">
                   <div className="beer-icon">🍺</div>
@@ -48,13 +62,13 @@ const BeersList = () => {
                   </Link>
                   <button
                     onClick={() => {
-                      //     addProduct(beer);
+                      addProduct(beer);
                     }}
                   >
                     ajouter au panier
                   </button>
                   <button
-                    onClick={() => deletebeer.mutateAsync(beer._id)}
+                    onClick={() => deleteItem(beer._id)}
                     className="delete-btn"
                   >
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
